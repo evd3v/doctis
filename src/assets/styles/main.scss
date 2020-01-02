@@ -1,0 +1,11 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+@import "node_modules/bootstrap-vue/src/index.scss";
+@import "fonts";
+
+@import "auth.scss";
+@import "main_layout.scss";
+
+body {
+  font-family: "IBM Plex Sans", sans-serif;
+  min-height: 100vh;
+}
