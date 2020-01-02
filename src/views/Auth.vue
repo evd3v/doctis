@@ -6,13 +6,13 @@
           Для входа в систему введите Ваш номер телефона и пароль
         </div>
         <form class="auth-form">
-          <input type="tel" placeholder="Номер телефона" />
-          <input type="password" placeholder="Пароль" />
+          <input type="tel" v-model="phone" placeholder="Номер телефона" />
+          <input type="password" v-model="password" placeholder="Пароль" />
           <div class="auth-form-footer">
             <a href="#" class="forgot">
               Забыли пароль?
             </a>
-            <button class="btn">
+            <button class="btn" @click.prevent="onAuth">
               Войти
             </button>
           </div>
@@ -24,6 +24,21 @@
 
 <script>
 export default {
-  name: "Auth"
+  name: "Auth",
+  data() {
+    return {
+      password: "",
+      phone: ""
+    }
+  },
+  methods: {
+    onAuth() {
+      const data = {
+        phoneNumber: this.phone,
+        password: this.password
+      }
+      this.$store.dispatch("authorization", data)
+    }
+  }
 }
 </script>
