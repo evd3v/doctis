@@ -37,7 +37,7 @@ export default {
         phoneNumber: this.phone,
         password: this.password
       }
-      this.$store.dispatch("authorization", data)
+      this.$store.dispatch("authorization", { vm: this, ...data })
     }
   }
 }

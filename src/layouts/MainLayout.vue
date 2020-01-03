@@ -11,10 +11,13 @@
       </div>
       <div class="subtitle">Телефон технической поддержки</div>
       <div class="phone">+7 823 930 43 28</div>
-      <router-view />
     </div>
+    <router-view />
     <div class="side-bar-right"></div>
-    <div class="overlay"></div>
+    <div v-if="this.$route.path.includes('auth')" class="overlay"></div>
+    <b-toast id="b-toast" title="BootstrapVue" static no-auto-hide>
+      Hello, world! This is a toast message.
+    </b-toast>
   </div>
 </template>
 

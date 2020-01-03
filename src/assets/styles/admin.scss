@@ -1,0 +1,337 @@
+@import "variables";
+
+.admin {
+  .user-card {
+    position: relative;
+    z-index: 1020;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    width: 90vw;
+    background-color: $white;
+    padding: 30px 15px;
+    @media (min-width: 576px) {
+      padding-left: 30px;
+      padding-right: inherit;
+    }
+    .user-card-content {
+      display: flex;
+      align-items: center;
+      @media (min-width: 576px) {
+        max-width: calc(540px - 10vw);
+      }
+      @media (min-width: 768px) {
+        max-width: calc(720px - 10vw);
+      }
+      @media (min-width: 992px) {
+        max-width: calc(960px - 10vw);
+      }
+      @media (min-width: 1200px) {
+        max-width: calc(1140px - 10vw);
+      }
+      .user-card-left {
+        margin-right: 10px;
+        .back-btn {
+          position: relative;
+          width: 40px;
+          height: 40px;
+          background-color: $secondary-color;
+          border: none;
+          border-radius: 5px;
+          color: $white;
+        }
+      }
+      .user-card-right {
+        font-size: 20.5px;
+        line-height: 20.5px;
+        .role {
+          margin-top: 10px;
+          font-size: 20px;
+          color: $secondary-color;
+        }
+      }
+    }
+  }
+  .search {
+    margin-top: 50px;
+    position: relative;
+    z-index: 1020;
+    padding: 25px 10vw 25px 15px;
+    background-color: $white;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    @media (min-width: 576px) {
+      padding-left: 30px;
+      padding-right: inherit;
+    }
+    .search-content {
+      @media (min-width: 576px) {
+        display: flex;
+        align-items: center;
+      }
+      .title {
+        color: $main-color;
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-family: "Grtsk Zetta", sans-serif;
+        margin-bottom: 10px;
+        @media (min-width: 576px) {
+          margin-right: 15px;
+          margin-bottom: 0;
+        }
+      }
+      input {
+        @media (min-width: 576px) {
+          width: 50%;
+        }
+      }
+    }
+  }
+  .main-panel {
+    position: relative;
+    z-index: 1000;
+    background: $white;
+    width: 100vw;
+    padding-top: 40px;
+    .main-panel-header {
+      padding: 0 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .add-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 15px;
+        border: none;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.075),
+          0 -5px 10px rgba(0, 0, 0, 0.075);
+        background: radial-gradient(
+            1144.69% 180.36% at 0% 67.94%,
+            #961c42,
+            rgba(255, 255, 255, 0) 100%
+          ),
+          radial-gradient(
+            100% 50.02% at 0% 65.22%,
+            rgba(255, 244, 74, 0.5) 87.86%,
+            rgba(150, 28, 66, 0.5) 72.84%
+          );
+        color: $white;
+
+        @media (min-width: 576px) {
+          margin-right: 60px;
+          width: 50px;
+          height: 50px;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+      .title {
+        font-size: 20px;
+        color: $main-color;
+        width: 80%;
+        @media (min-width: 576px) {
+          font-size: 27px;
+        }
+      }
+    }
+    .accordion {
+      margin-top: 20px;
+      box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
+        0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+      .accordion-item {
+        background-color: $white;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        .card-header {
+          border: none;
+          background-color: $white;
+          padding: 0 !important;
+          .accordion-item-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background: $white;
+            border: none;
+            color: $black;
+            @media (min-width: 576px) {
+              padding-left: 40px;
+            }
+            &:focus {
+              box-shadow: none !important;
+            }
+            &.collapsed {
+              .arrow {
+                transform: rotate(0deg);
+                transition: transform ease-in-out 0.2s;
+              }
+            }
+
+            .arrow {
+              transform: rotate(180deg);
+              transition: transform ease-in-out 0.2s;
+            }
+
+            .accordion-item-toggle-icon {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 30px;
+              min-width: 30px;
+              height: 30px;
+              margin-right: 10px;
+              border-radius: 50%;
+              background-color: $main-color;
+              color: $white;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .name {
+              width: 120px;
+              text-align: left;
+              font-size: 14px;
+              @media (min-width: 576px) {
+                width: 300px;
+              }
+              span {
+                display: block;
+                text-align: left;
+              }
+              .doctor-name {
+                font-weight: bold;
+              }
+            }
+            .status {
+              width: 210px;
+              font-size: 14px;
+              @media (min-width: 576px) {
+                width: 350px;
+              }
+              span {
+                display: block;
+              }
+            }
+          }
+        }
+        .accordion-content {
+          .patient-name {
+            font-size: 25px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            @media (min-width: 576px) {
+              padding-left: 30px;
+            }
+          }
+          .doctor-name {
+            display: flex;
+            font-size: 25px;
+            margin-bottom: 20px;
+            @media (min-width: 576px) {
+              padding-left: 30px;
+            }
+            .doctor-name-title {
+              font-weight: bold;
+              width: 35%;
+            }
+          }
+          .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            @media (min-width: 576px) {
+              padding-left: 40px;
+            }
+            .info-list-item {
+              display: flex;
+              margin-bottom: 10px;
+              .info-list-key {
+                font-weight: bold;
+                width: 35%;
+              }
+            }
+          }
+          .status-list {
+            list-style: none;
+            padding: 0;
+            margin: 40px 0 0;
+            .status-list-item {
+              display: flex;
+              justify-content: space-between;
+              height: 100px;
+              &:not(:last-child) {
+                margin-bottom: 15px;
+                .status-icon {
+                  position: relative;
+                  &.done,
+                  &.active {
+                    &:before {
+                      position: absolute;
+                      top: 30px;
+                      content: "";
+                      width: 2px;
+                      height: 85px;
+                      background-color: $main-color;
+                    }
+                  }
+                  &.active {
+                    &:before {
+                      height: 70px;
+                      background-color: $active-color;
+                    }
+                    &:after {
+                      position: absolute;
+                      content: "";
+                      display: inline-block;
+                      top: 100px;
+                      width: 0;
+                      height: 0;
+                      border-style: solid;
+                      border-width: 6.9px 4px 0 4px;
+                      border-color: $active-color transparent transparent
+                        transparent;
+                    }
+                  }
+                }
+              }
+              .status-icon-wrapper {
+                width: 35%;
+                display: flex;
+                justify-content: center;
+                .status-icon {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  color: $white;
+                  width: 30px;
+                  height: 30px;
+                  border-radius: 50%;
+                  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                  border: 2px solid rgba(18, 26, 38, 0.4);
+                  &.done {
+                    border: none;
+                    background-color: $main-color;
+                  }
+                  &.active {
+                    border: none;
+                    background-color: $active-color;
+                  }
+                }
+              }
+              .status-text {
+                width: 65%;
+                span {
+                  display: block;
+                  &:not(:last-child) {
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
