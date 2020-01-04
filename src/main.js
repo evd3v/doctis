@@ -6,6 +6,8 @@ import BootstrapVue from "bootstrap-vue"
 import "./assets/styles/main.scss"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import Vuelidate from "vuelidate"
+import VueCropper from "vue-cropperjs"
+import "cropperjs/dist/cropper.css"
 import {
   faLongArrowAltLeft,
   faPlus,
@@ -16,6 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 
 library.add(faLongArrowAltLeft, faPlus, faChevronDown, faCheck)
 Vue.component("font-awesome-icon", FontAwesomeIcon)
+Vue.component("vue-cropper", VueCropper)
 
 Vue.config.productionTip = false
 

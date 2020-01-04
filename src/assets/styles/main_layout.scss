@@ -84,16 +84,17 @@
     position: absolute;
     background: url("../images/auth-back.svg");
     background-position-y: 87%;
-    background-position-x: 50%;
+    //background-position-x: 50%;
     background-size: cover;
     z-index: -1;
     bottom: 0;
     width: 100%;
-    padding-bottom: 57%;
-    @media (min-height: 687px) {
-      padding-bottom: 36vh;
-      background-position-x: 37%;
-    }
+    padding-bottom: 36vh;
+    background-position-x: 37%;
+    //@media (min-height: 600px) {
+    //  padding-bottom: 36vh;
+    //  background-position-x: 37%;
+    //}
     @media (orientation: landscape) and (max-width: 1023px) {
       display: none;
     }

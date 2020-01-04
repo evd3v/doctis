@@ -170,10 +170,11 @@ export default {
   computed: {
     ...mapGetters(["getAdmin", "getPatients"])
   },
-  async mounted() {
-    await this.$store.dispatch("fetchAdminProfile")
-    await this.$store.dispatch("fetchPatients")
-    console.log(this.getPatients)
+  mounted() {
+    setTimeout(async () => {
+      await this.$store.dispatch("fetchAdminProfile")
+      await this.$store.dispatch("fetchPatients")
+    }, 500)
   },
   methods: {
     getFullNameDoctor(doctor) {

@@ -24,10 +24,12 @@ export default function generateRouter() {
   })
 
   router.beforeEach((to, from, next) => {
-    if (!store.getters.getToken) {
-      next({ name: "auth" })
-    } else if (to.path !== "/") {
-      next({ name: "admin" })
+    if (localStorage.getItem("token") && to.path === "/") {
+      next()
+    } else if (localStorage.getItem("token")) {
+      next({ path: "/" })
+    } else if (to.path !== "/auth") {
+      next({ path: "/auth" })
     } else {
       next()
     }

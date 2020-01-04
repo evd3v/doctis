@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 export default {
   name: "Auth",
   data() {
@@ -31,13 +32,22 @@ export default {
       phone: ""
     }
   },
+  computed: {
+    ...mapGetters(["getToken"])
+  },
   methods: {
-    onAuth() {
+    async onAuth() {
       const data = {
         phoneNumber: this.phone,
         password: this.password
       }
-      this.$store.dispatch("authorization", { vm: this, ...data })
+      await this.$store.dispatch("authorization", { vm: this, ...data })
+      this.nextStep()
+    },
+    nextStep() {
+      if (localStorage.getItem("token")) {
+        this.$router.push({ path: "/" })
+      }
     }
   }
 }

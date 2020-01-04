@@ -1,6 +1,7 @@
 import Vue from "vue"
 import Vuex from "vuex"
 import axios from "axios"
+import router from "../router"
 
 Vue.use(Vuex)
 
@@ -30,6 +31,12 @@ export default new Vuex.Store({
     setError(state, msg) {
       state.error = msg
     },
+    setToken(state, token) {
+      state.token = token
+    },
+    setRole(state, role) {
+      state.role = role
+    },
     clearError(state) {
       state.error = ""
     },
@@ -42,8 +49,8 @@ export default new Vuex.Store({
   },
   actions: {
     checkAuthToken() {},
-    async authorization({ commit, dispatch }, { vm, phoneNumber, password }) {
-      await axios
+    authorization({ commit, dispatch }, { vm, phoneNumber, password }) {
+      return axios
         .post("https://td-prod.doctis.ru:664/api/Account/Authorization", {
           phoneNumber,
           password
@@ -51,7 +58,28 @@ export default new Vuex.Store({
         .then(res => {
           localStorage.setItem("token", res.data.token)
           localStorage.setItem("role", res.data.role)
+          commit("setToken", res.data.token)
+          commit("setRole", res.data.role)
           dispatch("showToast", { vm, msg: "Вход произведен успешно" })
+        })
+        .catch(e => {
+          commit("setError", e.response.data)
+          dispatch("showToast", { vm })
+          commit("clearError")
+        })
+    },
+    async registration({ commit, dispatch }, { vm, data }) {
+      await axios
+        .post("https://td-prod.doctis.ru:664/api/Account/Registration", data, {
+          headers: {
+            Accept: "*/*"
+          }
+        })
+        .then(() => {
+          dispatch("showToast", {
+            vm,
+            msg: `Пользователь ${data.lastName} ${data.firstName} успешно зарегистрирован`
+          })
         })
         .catch(e => {
           commit("setError", e.response.data)
