@@ -115,8 +115,8 @@
                 />
                 <img
                   class="image-preview"
-                  v-if="imgSrc"
-                  :src="imgSrc"
+                  v-if="avatar"
+                  :src="avatar"
                   alt="avatar"
                 />
               </label>
@@ -215,13 +215,13 @@ export default {
       const reader = new FileReader()
       const img = e.target.files[0]
       reader.onloadend = () => {
-        this.imgSrc = reader.result
+        this.avatar = reader.result
         this.croppedImage = reader.result
       }
       reader.readAsDataURL(img)
     },
     onCrop() {
-      this.imgSrc = this.$refs.cropper.getCroppedCanvas().toDataURL()
+      this.avatar = this.$refs.cropper.getCroppedCanvas().toDataURL()
       this.croppedImage = ""
       this.isCropping = false
     }

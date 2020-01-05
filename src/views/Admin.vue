@@ -3,17 +3,19 @@
     <div class="user-card">
       <div class="user-card-content container">
         <div class="user-card-left">
-          <button class="back-btn">
+          <button class="back-btn" @click="logout">
             <font-awesome-icon icon="long-arrow-alt-left" />
           </button>
         </div>
-        <div class="user-card-right">
-          <div class="title">
-            <strong>{{ getAdmin.lastName }}</strong>
-            {{ `${getAdmin.firstName} ${getAdmin.middleName}` }}
-          </div>
-          <div class="role">
-            Администратор
+        <div class="user-card-right" ref="profileContainer">
+          <div v-if="isMountedProfile">
+            <div class="title">
+              <strong>{{ getAdmin.lastName }}</strong>
+              {{ `${getAdmin.firstName} ${getAdmin.middleName}` }}
+            </div>
+            <div class="role">
+              Администратор
+            </div>
           </div>
         </div>
       </div>
@@ -21,7 +23,7 @@
     <div class="search">
       <div class="search-content container">
         <div class="title">Администратор</div>
-        <input type="text" placeholder="Поиск пациента" />
+        <input type="text" placeholder="Поиск пациента" @input="onSearch" />
       </div>
     </div>
     <div class="main-panel">
@@ -31,105 +33,113 @@
         </button>
         <div class="title">Зарегистрировать нового врача</div>
       </div>
-      <div class="accordion" role="tablist">
-        <b-card
-          no-body
-          class="accordion-item"
-          v-for="(patient, index) in getPatients"
-          :key="index"
-        >
-          <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button
-              class="accordion-item-toggle container"
-              block
-              href="#"
-              v-b-toggle="`accordion-${index}`"
+      <div class="accordion" role="tablist" ref="patientsContainer">
+        <div v-if="isMountedPatients">
+          <transition-group name="fade">
+            <b-card
+              no-body
+              class="accordion-item"
+              v-for="(patient, index) in patients"
+              :key="index"
             >
-              <span class="accordion-item-toggle-icon">$</span>
-              <div class="name">
-                <span class="doctor-name">{{
-                  getFullNameDoctor(patient.doctor)
-                }}</span>
-                <span class="patient-name">{{ patient.firstFIO }}</span>
-              </div>
-              <div class="status">
-                <span class="status-title">
-                  {{ steps[patient.step - 1].title }}
-                </span>
-                <span class="status-id">ID: {{ patient.patientId }}</span>
-              </div>
-              <span class="arrow">
-                <font-awesome-icon icon="chevron-down"
-              /></span>
-            </b-button>
-          </b-card-header>
-          <b-collapse
-            :id="`accordion-${index}`"
-            accordion="accordion"
-            role="tabpanel"
-          >
-            <div class="accordion-content container">
-              <div class="patient-name">{{ patient.lastFIO }}</div>
-              <div class="doctor-name">
-                <span class="doctor-name-title">Врач:</span>
-                <span class="doctor-name-value">{{
-                  getFullNameDoctor(patient.doctor)
-                }}</span>
-              </div>
-              <ul class="info-list">
-                <li class="info-list-item">
-                  <span class="info-list-key">ID:</span>
-                  <span class="info-list-value">{{ patient.patientId }}</span>
-                </li>
-                <li class="info-list-item">
-                  <span class="info-list-key">Телефон:</span>
-                  <span class="info-list-value">{{ patient.phoneNumber }}</span>
-                </li>
-                <li class="info-list-item">
-                  <span class="info-list-key">Город:</span>
-                  <span class="info-list-value">{{ patient.city }}</span>
-                </li>
-                <li class="info-list-item">
-                  <span class="info-list-key">Пол:</span>
-                  <span class="info-list-value">{{ patient.male }}</span>
-                </li>
-                <li class="info-list-item">
-                  <span class="info-list-key">Возраст:</span>
-                  <span class="info-list-value">{{ patient.age }}</span>
-                </li>
-                <li class="info-list-item">
-                  <span class="info-list-key">Диагноз:</span>
-                  <span class="info-list-value">{{ patient.disease }}</span>
-                </li>
-                <li class="info-list-item">
-                  <span class="info-list-key">Направлен:</span>
-                  <span class="info-list-value">{{ patient.clinic }}</span>
-                </li>
-              </ul>
-              <ul class="status-list">
-                <li
-                  class="status-list-item"
-                  v-for="(step, index) in steps"
-                  :key="index"
+              <b-card-header header-tag="header" class="p-1" role="tab">
+                <b-button
+                  class="accordion-item-toggle container"
+                  block
+                  href="#"
+                  v-b-toggle="`accordion-${index}`"
                 >
-                  <div class="status-icon-wrapper">
-                    <span :class="getStatusClasses(patient.step, index)">
-                      <font-awesome-icon icon="check"
-                    /></span>
+                  <span class="accordion-item-toggle-icon">$</span>
+                  <div class="name">
+                    <span class="doctor-name">{{
+                      getFullNameDoctor(patient.doctor)
+                    }}</span>
+                    <span class="patient-name">{{ patient.firstFIO }}</span>
                   </div>
-                  <div class="status-text">
-                    <span class="title">
-                      {{ step.title }}
+                  <div class="status">
+                    <span class="status-title">
+                      {{ steps[patient.step - 1].title }}
                     </span>
-                    <span class="description">
-                      hello
-                    </span>
+                    <span class="status-id">ID: {{ patient.patientId }}</span>
                   </div>
-                </li>
-              </ul>
-            </div>
-          </b-collapse>
-        </b-card>
+                  <span class="arrow">
+                    <font-awesome-icon icon="chevron-down"
+                  /></span>
+                </b-button>
+              </b-card-header>
+              <b-collapse
+                :id="`accordion-${index}`"
+                accordion="accordion"
+                role="tabpanel"
+              >
+                <div class="accordion-content container">
+                  <div class="patient-name">{{ patient.lastFIO }}</div>
+                  <div class="doctor-name">
+                    <span class="doctor-name-title">Врач:</span>
+                    <span class="doctor-name-value">{{
+                      getFullNameDoctor(patient.doctor)
+                    }}</span>
+                  </div>
+                  <ul class="info-list">
+                    <li class="info-list-item">
+                      <span class="info-list-key">ID:</span>
+                      <span class="info-list-value">{{
+                        patient.patientId
+                      }}</span>
+                    </li>
+                    <li class="info-list-item">
+                      <span class="info-list-key">Телефон:</span>
+                      <span class="info-list-value">{{
+                        patient.phoneNumber
+                      }}</span>
+                    </li>
+                    <li class="info-list-item">
+                      <span class="info-list-key">Город:</span>
+                      <span class="info-list-value">{{ patient.city }}</span>
+                    </li>
+                    <li class="info-list-item">
+                      <span class="info-list-key">Пол:</span>
+                      <span class="info-list-value">{{ patient.male }}</span>
+                    </li>
+                    <li class="info-list-item">
+                      <span class="info-list-key">Возраст:</span>
+                      <span class="info-list-value">{{ patient.age }}</span>
+                    </li>
+                    <li class="info-list-item">
+                      <span class="info-list-key">Диагноз:</span>
+                      <span class="info-list-value">{{ patient.disease }}</span>
+                    </li>
+                    <li class="info-list-item">
+                      <span class="info-list-key">Направлен:</span>
+                      <span class="info-list-value">{{ patient.clinic }}</span>
+                    </li>
+                  </ul>
+                  <ul class="status-list">
+                    <li
+                      class="status-list-item"
+                      v-for="(step, index) in steps"
+                      :key="index"
+                    >
+                      <div class="status-icon-wrapper">
+                        <span :class="getStatusClasses(patient.step, index)">
+                          <font-awesome-icon icon="check"
+                        /></span>
+                      </div>
+                      <div class="status-text">
+                        <span class="title">
+                          {{ step.title }}
+                        </span>
+                        <span class="description">
+                          hello
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </b-collapse>
+            </b-card>
+          </transition-group>
+        </div>
       </div>
     </div>
     <CreateDoctorModal ref="CreateDoctorModal" />
@@ -164,17 +174,36 @@ export default {
         {
           title: "Вознаграждение выплачено"
         }
-      ]
+      ],
+      isMountedPatients: false,
+      isMountedProfile: false,
+      patients: []
     }
   },
   computed: {
     ...mapGetters(["getAdmin", "getPatients"])
   },
-  mounted() {
-    setTimeout(async () => {
-      await this.$store.dispatch("fetchAdminProfile")
-      await this.$store.dispatch("fetchPatients")
-    }, 500)
+  async mounted() {
+    const profileLoader = this.$loading.show({
+      container: this.$refs.profileContainer,
+      isFullPage: false,
+      width: 40,
+      height: 40,
+      color: "#b8607b"
+    })
+    await this.$store.dispatch("fetchAdminProfile")
+    profileLoader.hide()
+    this.isMountedProfile = true
+
+    const patientsLoader = this.$loading.show({
+      container: this.$refs.patientsContainer,
+      isFullPage: false,
+      color: "#b8607b"
+    })
+    await this.$store.dispatch("fetchPatients")
+    patientsLoader.hide()
+    this.isMountedPatients = true
+    this.patients = this.getPatients
   },
   methods: {
     getFullNameDoctor(doctor) {
@@ -191,6 +220,18 @@ export default {
         resultClass += " active"
       }
       return resultClass
+    },
+    logout() {
+      this.$store.dispatch("logout")
+      this.$router.push({ path: "/auth" })
+    },
+    onSearch(e) {
+      this.patients = this.getPatients.filter(item => {
+        return (
+          item.lastFIO.toLowerCase().indexOf(e.target.value.toLowerCase()) !==
+          -1
+        )
+      })
     }
   }
 }

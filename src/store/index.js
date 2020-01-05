@@ -87,6 +87,12 @@ export default new Vuex.Store({
           commit("clearError")
         })
     },
+    logout({ commit }) {
+      localStorage.removeItem("token")
+      localStorage.removeItem("role")
+      commit("setToken", "")
+      commit("setRole", "")
+    },
     async fetchAdminProfile({ commit }) {
       await axios
         .get("https://td-prod.doctis.ru:664/api/Admin/AdminProfile", {
